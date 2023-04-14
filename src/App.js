@@ -2,12 +2,16 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Success from './components/Success'
+import Error from './components/Error'
+import './index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
+  const [actionMessage, setActionMessage] = useState(null)
   const [user, setUser] = useState(null)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -47,6 +51,10 @@ const App = () => {
       setUsername('')
       setPassword('')
       console.log('succesfull login with user: ', user)
+      setActionMessage('Login succesful')
+      setTimeout(()=> {
+        setActionMessage(null)
+      }, 5000)
     } catch (exception) {
       console.log('Login not successfull')
       setErrorMessage('Wrong username or password')
@@ -64,6 +72,10 @@ const App = () => {
       window.localStorage.removeItem('loggedBlogappUser')
       setUser(null)
       console.log('succesfull logout')
+      setActionMessage('Logout succesful')
+      setTimeout(()=> {
+        setActionMessage(null)
+      }, 5000)      
     } catch(exception) {
       console.log('Logout not successfull')
       setErrorMessage('Logoug not successfull')
@@ -87,6 +99,11 @@ const App = () => {
       setAuthor('')
       setTitle('')
       setBlogUrl('')
+      setActionMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
+      setTimeout(()=> {
+        setActionMessage(null)
+      }, 5000)      
+
   } catch(exception){
     console.log('Creating new blog not succesfull')
     setErrorMessage('Creating new blog not succesfull')
@@ -102,9 +119,14 @@ const App = () => {
   //   setNewBlog(event.target.value)
   // }
 
+  
   if (user===null){
     return (
+      // <Success message={actionMessage}>
+      // <Error message={errorMessage}>
       <div>
+      <Success message={actionMessage}></Success>
+      <Error message={errorMessage}></Error>
         <h2>Log in to application</h2>
         <form onSubmit={handleLogin}>
           <div>
@@ -132,6 +154,8 @@ const App = () => {
   }
   return (
     <div>
+      <Success message={actionMessage}></Success>
+      <Error message={errorMessage}></Error>
       <h2>blogs</h2>
       <div>
         {user.name} logged in &nbsp;
