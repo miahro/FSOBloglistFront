@@ -22,30 +22,6 @@ const BlogForm = ({ createBlog }) => {
     setTitle('')
     setBlogUrl('')
   }
-//   try {
-//     const createdBlog = blogService.create(blogObject)
-    
-//     console.log('created blog:', createdBlog)
-//     setBlogs(blogs.concat(createdBlog))
-//     setAuthor('')
-//     setTitle('')
-//     setBlogUrl('')
-//     setActionMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
-//     setTimeout(()=> {
-//       setActionMessage(null)
-//     }, 5000)      
-
-// } catch(exception){
-//   console.log('Creating new blog not succesfull')
-//   setErrorMessage('Creating new blog not succesfull')
-//   setTimeout(() => {
-//     setErrorMessage(null)
-//   }, 5000)    
-// }
-// }
-
-
-
 
   return (
   <div>
