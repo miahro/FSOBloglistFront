@@ -107,70 +107,38 @@ const App = () => {
   }
   }
   
-  if (user===null){
-    return (
-      <div>
-      <Success message={actionMessage}></Success>
-      <Error message={errorMessage}></Error>
 
-      <Togglable buttonLabel="log in">
-        <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={handleLogin}
-        />
-      </Togglable>
-        {/* <h2>Log in to application</h2>
-        <form onSubmit={handleLogin}>
-          <div>
-            username &nbsp;
-              <input
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-          <div>
-            password &nbsp;
-              <input
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-          <button type="submit">login</button>
-        </form> */}
-      </div>
-    )
-  }
   return (
-    <div>
-      <Success message={actionMessage}></Success>
-      <Error message={errorMessage}></Error>
-      <h2>blogs</h2>
+
       <div>
-        {user.name} logged in &nbsp;
-        <button onClick = { handleLogout }>Logout</button>
+        <Success message={actionMessage}></Success>
+        <Error message={errorMessage}></Error>
+     
+        {!user &&
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+        />
+        }
+        {user &&
+          <div>
+            <h2>blogs</h2>
+            {user.name} logged in &nbsp;
+              <button onClick = { handleLogout }>Logout</button>
+            <br></br>
+              <Togglable buttonLabel="new blog" ref={blogFormRef}>
+              <BlogForm createBlog={addBlog} />
+            </Togglable>
+          <br></br>
+              {blogs.map(blog =>
+              <Blog key={blog.id} blog={blog} />
+            )}
+          </div> 
+        }
       </div>
-      <br></br>
-    <div>
-    <Togglable buttonLabel="new blog" ref={blogFormRef}>
-      <h2>create new</h2>
-      <BlogForm createBlog={addBlog} />
-      </Togglable>
-    <br></br>
-    </div>
-
-
-
-    {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </div>
   )
 }
 

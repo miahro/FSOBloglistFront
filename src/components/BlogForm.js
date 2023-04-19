@@ -1,5 +1,4 @@
 import {useState} from 'react'
-//import Blog from './Blog'
 
 const BlogForm = ({ createBlog }) => {
 
