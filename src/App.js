@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect,useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Success from './components/Success'
 import Error from './components/Error'
+import Togglable from './components/Togglable'
+import BlogForm from './components/BlogForm'
 import './index.css'
 
 const App = () => {
@@ -13,10 +15,10 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [actionMessage, setActionMessage] = useState(null)
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [blogUrl, setBlogUrl] = useState('')
-  //const [newBlog, setNewBlog] = useState('')
+  // const [title, setTitle] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [blogUrl, setBlogUrl] = useState('')
+  // const [newBlog, setNewBlog] = useState('')
 
 
   useEffect(() => {
@@ -85,20 +87,25 @@ const App = () => {
     }
   }
 
-  const addBlog = async (event) => {
-    event.preventDefault()
-    const blogObject ={
-      title: title,
-      author: author,
-      url: blogUrl
-    }
+  const blogFormRef = useRef()
+
+
+  const addBlog = async (blogObject) => {
+    // event.preventDefault()
+    // const blogObject ={
+    //   title: title,
+    //   author: author,
+    //   url: blogUrl
+    // }
     try {
       const createdBlog = await blogService.create(blogObject)
+      
       console.log('created blog:', createdBlog)
       setBlogs(blogs.concat(createdBlog))
-      setAuthor('')
-      setTitle('')
-      setBlogUrl('')
+      // setAuthor('')
+      // setTitle('')
+      // setBlogUrl('')
+      blogFormRef.current.toggleVisibility()
       setActionMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
       setTimeout(()=> {
         setActionMessage(null)
@@ -113,6 +120,47 @@ const App = () => {
   }
   }
 
+  // const addBlog = (blogObject) => {
+  //   blogService
+  //     .create(blogObject)
+  //           .then(returnedblog => {
+  //       setBlogs(blogs.concat(returnedblog))
+  //     })
+
+  //   //blogFormRef.current.toggleVisibility()
+  // }
+
+
+  // const addBlog = async (event) => {
+  //   event.preventDefault()
+  //   const blogObject ={
+  //     title: title,
+  //     author: author,
+  //     url: blogUrl
+  //   }
+  //   try {
+  //     const createdBlog = await blogService.create(blogObject)
+      
+  //     console.log('created blog:', createdBlog)
+  //     setBlogs(blogs.concat(createdBlog))
+  //     setAuthor('')
+  //     setTitle('')
+  //     setBlogUrl('')
+  //     //blogFormRef.current.toggleVisibility()
+  //     setActionMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
+  //     setTimeout(()=> {
+  //       setActionMessage(null)
+  //     }, 5000)      
+
+  // } catch(exception){
+  //   console.log('Creating new blog not succesfull')
+  //   setErrorMessage('Creating new blog not succesfull')
+  //   setTimeout(() => {
+  //     setErrorMessage(null)
+  //   }, 5000)    
+  // }
+  // }
+
   // const handleNewBlog = async (event) => {
   //   event.preventDefault()
   //   console.log('creating new blog event handler')
@@ -122,8 +170,6 @@ const App = () => {
   
   if (user===null){
     return (
-      // <Success message={actionMessage}>
-      // <Error message={errorMessage}>
       <div>
       <Success message={actionMessage}></Success>
       <Error message={errorMessage}></Error>
@@ -163,8 +209,11 @@ const App = () => {
       </div>
       <br></br>
     <div>
+    <Togglable buttonLabel="new blog" ref={blogFormRef}>
       <h2>create new</h2>
-      <form onSubmit={ addBlog }>
+      <BlogForm createBlog={addBlog} />
+
+      {/* <form onSubmit={ addBlog }>
         <div>
           title: &nbsp;
           <input
@@ -193,11 +242,16 @@ const App = () => {
         />        
         </div>
         <button type="submit">create</button>
-      </form>
-      <br></br>
+      </form> */}
+
+      </Togglable>
+    <br></br>
+    {/* <BlogForm/> */}
     </div>
 
-      {blogs.map(blog =>
+
+
+    {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
     </div>
