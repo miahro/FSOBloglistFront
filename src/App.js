@@ -130,7 +130,7 @@ const App = () => {
 
   const deleteBlog = async(id) => {
     try {
-      const deletedBlog = await blogService.remove(id)
+      await blogService.remove(id)
       setBlogs(blogs.filter(blog => blog.id !== id))
       setActionMessage(`blog deleted`)
       setTimeout(()=> {
@@ -170,7 +170,7 @@ const App = () => {
             {user.name} logged in &nbsp;
               <button onClick = { handleLogout }>Logout</button>
             <br></br>
-              <Togglable buttonLabel="new blog" ref={blogFormRef}>
+              <Togglable buttonLabel='create blog' ref={blogFormRef}>
               <BlogForm createBlog={addBlog} />
             </Togglable>
           <br></br>
