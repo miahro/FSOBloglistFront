@@ -2,7 +2,7 @@ import { useState} from "react"
 
 
 
-const Blog = ({blog, updateBlog, id}) => {
+const Blog = ({blog, updateBlog, blogToBeDeleted}) => {
 
   //console.log('in component Blog, blog', blog)
 
@@ -40,6 +40,12 @@ const Blog = ({blog, updateBlog, id}) => {
     updateBlog(updatedBlogObject, id)
   }
 
+  const deleteBlog = (event) => {
+    event.preventDefault()
+    console.log('remove clicked')
+    blogToBeDeleted(blog.id)
+  }
+
 
   return (
   <div style={blogStyle}>
@@ -55,7 +61,8 @@ const Blog = ({blog, updateBlog, id}) => {
         {blog.url} <br></br>
         likes {blog.likes} &nbsp;
         <button onClick={like} >like</button><br></br>
-        {blog.user.name}
+        {blog.user.name} <br></br>
+        <button onClick={deleteBlog}>remove</button>
       </div>
     </div>
   )

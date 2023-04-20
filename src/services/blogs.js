@@ -21,14 +21,18 @@ const create = async newObject => {
 }
 
 const update = async (newObject, id) => {
-  //console.log('blogservices.update newObject', newObject, 'id: ', id)
-  //console.log('baseurl + id', `${baseUrl}/${id}`)
   const response = await axios.put(`${baseUrl}/${id}`, newObject)
-  //console.log('response.data', response.data)
-  //console.log('response.status', response.status)
-  //console.log('response.error', response.error)
+  return response.data
+}
+
+const remove = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  console.log('blogservice remove called with id', id, 'and config', config)
+  const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, setToken, create, update }
+export default { getAll, setToken, create, update, remove }

@@ -115,6 +115,10 @@ const App = () => {
       //console.log('updated blog', updatedBlog)
       //console.log(blogs.map(blog => blog.id !== id ? blog : blogObject))
       setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
+      setActionMessage(`likes increased for ${updatedBlog.title} by ${updatedBlog.author}`)
+      setTimeout(()=> {
+        setActionMessage(null)
+      }, 5000)
     } catch(exception){
       //console.log('Updating blog not succesfull', exception)
     setErrorMessage('Updating blog not successfull')
@@ -124,7 +128,25 @@ const App = () => {
     }
   }
 
+  const deleteBlog = async(id) => {
+    try {
+      const deletedBlog = await blogService.remove(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+      setActionMessage(`blog deleted`)
+      setTimeout(()=> {
+        setActionMessage(null)
+      }, 5000)
+    } catch(exeption) {
+      const msg = String(exeption.response.data.error)
 
+      console.log('delete failed ', msg, 'type of', typeof msg)
+      setErrorMessage(`Deleting blog not successfull, ${msg}`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000) 
+      }
+    }
+  
   
 
   return (
@@ -154,7 +176,7 @@ const App = () => {
           <br></br>
               {blogs.sort((a,b) => a.likes - b.likes)
                 .map(blog => 
-              <Blog key={blog.id} blog={blog} updateBlog={increaseLikes} />
+              <Blog key={blog.id} blog={blog} updateBlog={increaseLikes} blogToBeDeleted={deleteBlog} />
             )}
           </div> 
         }
