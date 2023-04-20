@@ -1,8 +1,10 @@
-import { useState } from "react"
+import { useState} from "react"
 
 
 
-const Blog = ({blog}) => {
+const Blog = ({blog, updateBlog, id}) => {
+
+  //console.log('in component Blog, blog', blog)
 
   const blogStyle = {
     paddingTop: 10,
@@ -23,8 +25,19 @@ const Blog = ({blog}) => {
     setVisible(!visible)
   }
 
-  const like = () => {
-    console.log("Like clicked")
+  const like = (event) => {
+    //console.log("Like clicked for blog", blog)
+    const id = blog.id
+    event.preventDefault()
+    const updatedBlogObject = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes+1,
+      user: blog.user.id
+    }
+    //console.log('updatedBlogObject', updatedBlogObject)
+    updateBlog(updatedBlogObject, id)
   }
 
 

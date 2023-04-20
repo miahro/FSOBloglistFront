@@ -96,16 +96,35 @@ const App = () => {
       setActionMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
       setTimeout(()=> {
         setActionMessage(null)
-      }, 5000)      
+      }, 5000)
+    } catch(exception){
+      console.log('Creating new blog not succesfull')
+      setErrorMessage('Creating new blog not succesfull')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)    
+    }
+    }
 
-  } catch(exception){
-    console.log('Creating new blog not succesfull')
-    setErrorMessage('Creating new blog not succesfull')
+
+  const increaseLikes = async (blogObject, id) => {
+    //console.log('are we calling increaseLikes before crashing?')
+    //console.log('increaseLikes called with blogObject', blogObject, 'and id ', id)
+    try {
+      const updatedBlog = await blogService.update(blogObject, id)
+      //console.log('updated blog', updatedBlog)
+      //console.log(blogs.map(blog => blog.id !== id ? blog : blogObject))
+      setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
+    } catch(exception){
+      //console.log('Updating blog not succesfull', exception)
+    setErrorMessage('Updating blog not successfull')
     setTimeout(() => {
       setErrorMessage(null)
-    }, 5000)    
+    }, 5000) 
+    }
   }
-  }
+
+
   
 
   return (
@@ -134,7 +153,7 @@ const App = () => {
             </Togglable>
           <br></br>
               {blogs.map(blog =>
-              <Blog key={blog.id} blog={blog} />
+              <Blog key={blog.id} blog={blog} updateBlog={increaseLikes} />
             )}
           </div> 
         }
