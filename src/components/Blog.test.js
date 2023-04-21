@@ -10,7 +10,7 @@ import Blog from './Blog'
 const blog = {
   title: 'test blog',
   author: 'imaginary writer',
-  url: 'http://wwww.some.sm',
+  url: 'http://www.some.sm',
   likes: 2,
   user: {
     id: '123',
