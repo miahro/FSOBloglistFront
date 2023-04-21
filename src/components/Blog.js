@@ -16,6 +16,8 @@ const Blog = ({blog, updateBlog, blogToBeDeleted}) => {
     marginBottom: 5
   }
 
+
+
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -48,13 +50,14 @@ const Blog = ({blog, updateBlog, blogToBeDeleted}) => {
 
 
   return (
-  <div style={blogStyle}>
+  <div className='blog' style={blogStyle}>
 
-      <div style={hideWhenVisible}>
+      <div className ='hidden' style={hideWhenVisible}>
         {blog.title} &nbsp;
-        <button onClick={toggleVisibility}> view </button>
+        {blog.author} &nbsp;
+        <button onClick={toggleVisibility}>view</button>
       </div>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className='visible'>
         {blog.title} &nbsp;
         <button onClick={toggleVisibility}>hide</button> <br></br>
         {blog.author} <br></br>
@@ -66,6 +69,26 @@ const Blog = ({blog, updateBlog, blogToBeDeleted}) => {
       </div>
     </div>
   )
+
+//   <div className='blog' style={blogStyle}>
+
+//   <div className ='hidden' style={hideWhenVisible}>
+//     <div className='title'>{blog.title} &nbsp;</div>
+//     <div className='author'>{blog.author} &nbsp;</div>
+//     <button onClick={toggleVisibility}>view</button>
+//   </div>
+//   <div style={showWhenVisible} className='visible'>
+//     <div className='title'>{blog.title} &nbsp;</div>
+//     <button onClick={toggleVisibility}>hide</button> <br></br>
+//     <div className='author'>{blog.author} <br></br></div>
+//     <div className='url'>{blog.url} <br></br></div>
+//     <div className='likes'>likes {blog.likes} &nbsp;</div>
+//     <button onClick={like} >like</button><br></br>
+//     <div className='username'>{blog.user.name} <br></br></div>
+//     <button onClick={deleteBlog}>remove</button>
+//   </div>
+// </div>
+// )
 }
 
 export default Blog

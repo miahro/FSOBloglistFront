@@ -46,7 +46,9 @@ module.exports = {
       ],
       "no-console": 0,
       "react/prop-types": 0,
-      "react/react-in-jsx-scope": "off"
+      "react/react-in-jsx-scope": "off",
+      "testing-library/no-container": "off",
+      "/testing-library/no-node-access": "off"
   },
   "settings": {
     "react": {
