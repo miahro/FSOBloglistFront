@@ -20,11 +20,11 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
-  useEffect(() => {    
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')    
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -38,7 +38,7 @@ const App = () => {
 
     try {
       const user = await loginService.login({
-        username, password 
+        username, password
       })
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
@@ -50,7 +50,7 @@ const App = () => {
       setPassword('')
       console.log('succesfull login with user: ', user)
       setActionMessage('Login succesful')
-      setTimeout(()=> {
+      setTimeout(() => {
         setActionMessage(null)
       }, 5000)
     } catch (exception) {
@@ -61,7 +61,7 @@ const App = () => {
       }, 5000)
     }
 
-    }
+  }
 
   const handleLogout = async (event) => {
     event.preventDefault()
@@ -71,9 +71,9 @@ const App = () => {
       setUser(null)
       console.log('succesfull logout')
       setActionMessage('Logout succesful')
-      setTimeout(()=> {
+      setTimeout(() => {
         setActionMessage(null)
-      }, 5000)      
+      }, 5000)
     } catch(exception) {
       console.log('Logout not successfull')
       setErrorMessage('Logoug not successfull')
@@ -89,12 +89,12 @@ const App = () => {
   const addBlog = async (blogObject) => {
     try {
       const createdBlog = await blogService.create(blogObject)
-      
+
       console.log('created blog:', createdBlog)
       setBlogs(blogs.concat(createdBlog))
       blogFormRef.current.toggleVisibility()
       setActionMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
-      setTimeout(()=> {
+      setTimeout(() => {
         setActionMessage(null)
       }, 5000)
     } catch(exception){
@@ -102,9 +102,9 @@ const App = () => {
       setErrorMessage('Creating new blog not succesfull')
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000)    
+      }, 5000)
     }
-    }
+  }
 
 
   const increaseLikes = async (blogObject, id) => {
@@ -116,15 +116,15 @@ const App = () => {
       //console.log(blogs.map(blog => blog.id !== id ? blog : blogObject))
       setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
       setActionMessage(`likes increased for ${updatedBlog.title} by ${updatedBlog.author}`)
-      setTimeout(()=> {
+      setTimeout(() => {
         setActionMessage(null)
       }, 5000)
     } catch(exception){
       //console.log('Updating blog not succesfull', exception)
-    setErrorMessage('Updating blog not successfull')
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000) 
+      setErrorMessage('Updating blog not successfull')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -132,8 +132,8 @@ const App = () => {
     try {
       await blogService.remove(id)
       setBlogs(blogs.filter(blog => blog.id !== id))
-      setActionMessage(`blog deleted`)
-      setTimeout(()=> {
+      setActionMessage('blog deleted')
+      setTimeout(() => {
         setActionMessage(null)
       }, 5000)
     } catch(exeption) {
@@ -143,44 +143,44 @@ const App = () => {
       setErrorMessage(`Deleting blog not successfull, ${msg}`)
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000) 
-      }
+      }, 5000)
     }
-  
-  
+  }
+
+
 
   return (
 
-      <div>
-        <Success message={actionMessage}></Success>
-        <Error message={errorMessage}></Error>
-     
-        {!user &&
+    <div>
+      <Success message={actionMessage}></Success>
+      <Error message={errorMessage}></Error>
+
+      {!user &&
           <LoginForm
             username={username}
             password={password}
             handleUsernameChange={({ target }) => setUsername(target.value)}
             handlePasswordChange={({ target }) => setPassword(target.value)}
             handleSubmit={handleLogin}
-        />
-        }
-        {user &&
+          />
+      }
+      {user &&
           <div>
             <h2>blogs</h2>
             {user.name} logged in &nbsp;
-              <button onClick = { handleLogout }>Logout</button>
+            <button onClick = { handleLogout }>Logout</button>
             <br></br>
-              <Togglable buttonLabel='create blog' ref={blogFormRef}>
+            <Togglable buttonLabel='create blog' ref={blogFormRef}>
               <BlogForm createBlog={addBlog} />
             </Togglable>
-          <br></br>
-              {blogs.sort((a,b) => a.likes - b.likes)
-                .map(blog => 
-              <Blog key={blog.id} blog={blog} updateBlog={increaseLikes} blogToBeDeleted={deleteBlog} />
-            )}
-          </div> 
-        }
-      </div>
+            <br></br>
+            {blogs.sort((a,b) => a.likes - b.likes)
+              .map(blog =>
+                <Blog key={blog.id} blog={blog} updateBlog={increaseLikes} blogToBeDeleted={deleteBlog} />
+              )}
+          </div>
+      }
+    </div>
   )
 }
 

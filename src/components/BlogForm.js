@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const BlogForm = ({ createBlog }) => {
@@ -25,42 +25,42 @@ const BlogForm = ({ createBlog }) => {
   }
 
   return (
-  <div>
-    <h2>create new</h2>
-    <form onSubmit={addBlog}>
     <div>
+      <h2>create new</h2>
+      <form onSubmit={addBlog}>
+        <div>
       title: &nbsp;
-      <input
-      type="text"
-      value={ title }
-      name="Title"
-      placeholder="blog title"
-      onChange={({ target }) => setTitle(target.value)}
-    />
-    </div>
-    <div>
+          <input
+            type="text"
+            value={ title }
+            name="Title"
+            placeholder="blog title"
+            onChange={({ target }) => setTitle(target.value)}
+          />
+        </div>
+        <div>
       author: &nbsp;
-      <input
-      type="text"
-      value={ author }
-      name="Author"
-      placeholder='blog author'
-      onChange={({ target }) => setAuthor(target.value)}
-    />
-    </div>
-    <div>
+          <input
+            type="text"
+            value={ author }
+            name="Author"
+            placeholder='blog author'
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+        </div>
+        <div>
       url: &nbsp;
-      <input
-      type="url"
-      value={ blogUrl }
-      name="Url"
-      placeholder="blog url"
-      onChange={({ target }) => setBlogUrl(target.value)}
-    />        
+          <input
+            type="url"
+            value={ blogUrl }
+            name="Url"
+            placeholder="blog url"
+            onChange={({ target }) => setBlogUrl(target.value)}
+          />
+        </div>
+        <button type="submit">create</button>
+      </form>
     </div>
-    <button type="submit">create</button>
-    </form>
-  </div>
   )
 }
 

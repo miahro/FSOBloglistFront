@@ -12,3 +12,5 @@
 
 # misc
 .env
+
+cypress/videos

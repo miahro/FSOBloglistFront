@@ -1,8 +1,8 @@
-import { useState} from "react"
+import { useState } from 'react'
 
 
 
-const Blog = ({blog, updateBlog, blogToBeDeleted}) => {
+const Blog = ({ blog, updateBlog, blogToBeDeleted }) => {
 
   //console.log('in component Blog, blog', blog)
 
@@ -50,7 +50,7 @@ const Blog = ({blog, updateBlog, blogToBeDeleted}) => {
 
 
   return (
-  <div className='blog' style={blogStyle}>
+    <div className='blog' style={blogStyle}>
 
       <div className ='hidden' style={hideWhenVisible}>
         {blog.title} &nbsp;
@@ -70,7 +70,7 @@ const Blog = ({blog, updateBlog, blogToBeDeleted}) => {
     </div>
   )
 
-//   <div className='blog' style={blogStyle}>
+  //   <div className='blog' style={blogStyle}>
 
 //   <div className ='hidden' style={hideWhenVisible}>
 //     <div className='title'>{blog.title} &nbsp;</div>

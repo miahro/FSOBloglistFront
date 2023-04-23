@@ -7,33 +7,35 @@ const LoginForm = ({
   username,
   password
 }) => {
-return (
+  return (
 
-  <div>
-  <h2>Log in to application</h2>
-  <form onSubmit={handleSubmit}>
     <div>
+      <h2>Log in to application</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
       username &nbsp;
-        <input
-        type="text"
-        value={username}
-        name="Username"
-        onChange = {handleUsernameChange}
-      />
-    </div>
-    <div>
+          <input
+            type="text"
+            value={username}
+            name="Username"
+            id="username"
+            onChange = {handleUsernameChange}
+          />
+        </div>
+        <div>
       password &nbsp;
-        <input
-        type="password"
-        value={password}
-        name="Password"
-        onChange= {handlePasswordChange}
-      />
+          <input
+            type="password"
+            value={password}
+            name="Password"
+            id="password"
+            onChange= {handlePasswordChange}
+          />
+        </div>
+        <button type="submit" id="login">login</button>
+      </form>
     </div>
-    <button type="submit">login</button>
-  </form>
-  </div>
-)
+  )
 }
 
 LoginForm.propTypes = {
