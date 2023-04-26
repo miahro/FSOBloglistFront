@@ -22,7 +22,13 @@ describe('Bloglist app', function() {
       username: 'superuser',
       password: 'topsecret'
     }
+    const user2 = {
+      name: 'Test User2',
+      username: 'superuser2',
+      password: 'topsecret2'
+    }
     cy.request('POST', 'http://localhost:3003/api/users', user)
+    cy.request('POST', 'http://localhost:3003/api/users', user2)
     cy.visit('http://localhost:3000')
 
   })
@@ -68,6 +74,27 @@ describe('Bloglist app', function() {
       cy.get('#like').click()
       cy.get('#like').click()
       cy.get('.blog').should('contain', 'likes 2')
+      cy.get('.blog').should('contain', blogs[0].title)
+    })
+    it('User can delete blog', function(){
+      cy.addblog({ title: blogs[0].title, author: blogs[0].author, url: blogs[0].url })
+      cy.get('#view').click()
+      cy.get('#remove').click()
+      cy.get('.blog').not('contain', blogs[0].title)
+    })
+    it('Authorized user can see remove button', function(){
+      cy.addblog({ title: blogs[0].title, author: blogs[0].author, url: blogs[0].url })
+      cy.get('#view').click()
+      cy.get('.blog').should('contain', 'remove')
+    })
+    it('Unauthorized user cannot see remove button', function(){
+      cy.addblog({ title: blogs[0].title, author: blogs[0].author, url: blogs[0].url })
+      cy.login({ username: 'superuser2', password: 'topsecret2' })
+      cy.get('#view').click()
+      cy.get('.blog').should('not.contain', 'remove')
     })
   })
+
 })
+
+

@@ -45,6 +45,13 @@ module.exports = {
       "arrow-spacing": [
           "error", { "before": true, "after": true }
       ],
+      "no-restricted-properties": ["error", {
+        "property": "lenght"
+      },{"property": "lengt"},{
+        "property": "lenhgt"
+      }
+      ] 
+      ,
       "no-console": 0,
       "react/prop-types": 0,
       "react/react-in-jsx-scope": "off",

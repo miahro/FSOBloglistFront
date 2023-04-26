@@ -28,6 +28,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      console.log('in main App user', user.username)
       blogService.setToken(user.token)
     }
   }, [])
@@ -176,7 +177,7 @@ const App = () => {
             <br></br>
             {blogs.sort((a,b) => a.likes - b.likes)
               .map(blog =>
-                <Blog key={blog.id} blog={blog} updateBlog={increaseLikes} blogToBeDeleted={deleteBlog} />
+                <Blog key={blog.id} blog={blog} updateBlog={increaseLikes} blogToBeDeleted={deleteBlog} loggedInUser={user.username} />
               )}
           </div>
       }

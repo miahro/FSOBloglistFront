@@ -16,6 +16,7 @@ const blog = {
   }
 }
 
+
 test('renders title and author', () => {
   const { container } = render(<Blog blog={blog}/>)
   const element = container.querySelector('.hidden')
