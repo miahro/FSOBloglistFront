@@ -93,6 +93,40 @@ describe('Bloglist app', function() {
       cy.get('#view').click()
       cy.get('.blog').should('not.contain', 'remove')
     })
+    it('Blogs are ordered according to likes', function(){
+      cy.addblog({ title: blogs[0].title, author: blogs[0].author, url: blogs[0].url })
+      cy.addblog({ title: blogs[1].title, author: blogs[1].author, url: blogs[1].url })
+      cy.addblog({ title: blogs[2].title, author: blogs[2].author, url: blogs[2].url })
+
+
+
+      cy.get('.blog').eq(0).contains('view').click() //blog 0 0 likes #1
+      cy.get('.blog').get('.like').eq(0).click() //blog 0 1 likes #1
+      cy.get('.blog').get('.like').eq(0).click() //blog 0 1 likes #1
+
+
+      cy.get('.blog').eq(1).contains('view').click() //blog 1 0 likes #2
+      cy.get('.blog').get('.like').eq(1).click() //blog 1 1 likes #2
+      cy.get('.blog').get('.like').eq(1).click() //blog 1 2 likes #2
+      cy.wait(500)
+      cy.get('.blog').get('.like').eq(1).click() //blog 1 3 likes #1
+      cy.wait(500)
+
+      cy.get('.blog').eq(2).contains('view').click() //blog 3 0 likes #3
+      cy.get('.blog').get('.like').eq(2).click() //blog 3 1 likes #3
+      cy.get('.blog').get('.like').eq(2).click() //blog 3 2 likes #3
+      cy.get('.blog').get('.like').eq(2).click() //blog 3 3 likes #2
+      cy.wait(500)
+      cy.get('.blog').get('.like').eq(1).click() //blog 3 4 likes #1
+      cy.wait(500)
+      cy.get('.blog').get('.like').eq(0).click() //blog 3 5 likes #1
+      cy.get('.blog').get('.like').eq(0).click() //blog 3 6 likes #1
+
+      cy.get('.blog').eq(0).should('contain', 'title3')
+      cy.get('.blog').eq(1).should('contain', 'title2')
+      cy.get('.blog').eq(2).should('contain', 'title1')
+
+    })
   })
 
 })

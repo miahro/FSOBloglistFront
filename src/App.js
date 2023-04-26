@@ -90,8 +90,6 @@ const App = () => {
   const addBlog = async (blogObject) => {
     try {
       const createdBlog = await blogService.create(blogObject)
-
-      console.log('created blog:', createdBlog)
       setBlogs(blogs.concat(createdBlog))
       blogFormRef.current.toggleVisibility()
       setActionMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
@@ -109,19 +107,15 @@ const App = () => {
 
 
   const increaseLikes = async (blogObject, id) => {
-    //console.log('are we calling increaseLikes before crashing?')
-    //console.log('increaseLikes called with blogObject', blogObject, 'and id ', id)
     try {
       const updatedBlog = await blogService.update(blogObject, id)
-      //console.log('updated blog', updatedBlog)
-      //console.log(blogs.map(blog => blog.id !== id ? blog : blogObject))
+      updatedBlog.user = user
       setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
       setActionMessage(`likes increased for ${updatedBlog.title} by ${updatedBlog.author}`)
       setTimeout(() => {
         setActionMessage(null)
       }, 5000)
     } catch(exception){
-      //console.log('Updating blog not succesfull', exception)
       setErrorMessage('Updating blog not successfull')
       setTimeout(() => {
         setErrorMessage(null)
@@ -175,7 +169,7 @@ const App = () => {
               <BlogForm createBlog={addBlog} />
             </Togglable>
             <br></br>
-            {blogs.sort((a,b) => a.likes - b.likes)
+            {blogs.sort((a,b) => b.likes - a.likes)
               .map(blog =>
                 <Blog key={blog.id} blog={blog} updateBlog={increaseLikes} blogToBeDeleted={deleteBlog} loggedInUser={user.username} />
               )}
